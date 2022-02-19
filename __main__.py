@@ -15,8 +15,8 @@ MAX_X = 900
 MAX_Y = 600
 FRAME_RATE = 12
 COLS = 60
-ROWS = 10
-DEFAULT_ARTIFACTS = 20
+ROWS = 1
+DEFAULT_ARTIFACTS = 10
 
 
 
@@ -33,7 +33,7 @@ def main():
         
 
         x = random.randint(1, COLS - 1)
-        y = random.randint(1, ROWS - 1)
+        y = ROWS
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
 
