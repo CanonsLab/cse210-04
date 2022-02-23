@@ -7,7 +7,7 @@ class Artifact(Actor):
         self._type = random.randint(0, 1)
 
     def Collision(self):
-        if self.type == 0:
+        if self._type == 0:
             return -10
         else:
             return 10
