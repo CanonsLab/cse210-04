@@ -9,13 +9,14 @@ class Director:
         _video_service (VideoService): For providing video output.
     """
     
-    def __init__(self, video_service):
+    def __init__(self, video_service, keyboard_service):
         """Constructs a new Director using the specified keyboard and video services.
         
         Args:
             video_service (VideoService): An instance of VideoService.
         """
         self._video_service = video_service
+        self._keyboard_service = keyboard_service
 
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -25,14 +26,16 @@ class Director:
         """
         self._video_service.open_window()
         while self._video_service.is_window_open():
-            
+            self._get_inputs(cast)
             self._do_updates(cast)
             self._do_outputs(cast)
         self._video_service.close_window()
         
 
-    def _get_inputs(self):
-        pass
+    def _get_inputs(self, cast):
+        player = cast.get_first_actor('player0')
+        velocity = self._keyboard_service.get_direction()
+        player.set_velocity(velocity)
 
     def _do_updates(self, cast):
         actors = cast.get_all_actors()

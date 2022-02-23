@@ -2,6 +2,7 @@ import random
 
 from game.directing.director import Director
 from game.services.video_service import VideoService
+from game.services.keyboard_service import KeyboardService
 from game.shared.point import Point
 from game.shared.color import Color
 from game.casting.actor import Actor
@@ -63,8 +64,9 @@ def main():
         
 
     # Start the game
+    keyboard_service = KeyboardService(CELL_SIZE)
     video_service = VideoService(CAPTION, MAX_X, MAX_Y, CELL_SIZE, FRAME_RATE)
-    director = Director(video_service)
+    director = Director(video_service, keyboard_service)
     director.start_game(cast)
 
 
