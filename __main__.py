@@ -49,7 +49,7 @@ def main():
         artifact.set_font_size(FONT_SIZE)
         artifact.set_color(color)
         artifact.set_position(position)
-        artifact.set_velocity(Point(0 ,CELL_SIZE))
+        artifact.set_velocity(Point(0 , 15))
         cast.add_actor('artifacts', artifact)
 
     position = Point(450, MAX_Y-CELL_SIZE)
