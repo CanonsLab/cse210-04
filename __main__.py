@@ -7,6 +7,7 @@ from game.shared.color import Color
 from game.casting.actor import Actor
 from game.casting.cast import Cast
 from game.casting.artifact import Artifact
+from game.casting.player import Player
 
 CAPTION = "GREED GAME"
 CELL_SIZE = 15
@@ -28,12 +29,8 @@ def main():
 
     # create the artifacts
     for i in range(DEFAULT_ARTIFACTS): 
-        gem_and_rock = (chr(42), chr(79))
-        text = random.choice(gem_and_rock)
-        
-
         x = random.randint(1, COLS - 1)
-        y = ROWS
+        y = 0
         position = Point(x, y)
         position = position.scale(CELL_SIZE)
 
@@ -42,12 +39,27 @@ def main():
         b = random.randint(0, 255)
         color = Color(r, g, b)
 
-        artifact = Actor()
-        artifact.set_text(text)
+        artifact = Artifact()
+        t = artifact.Get_Type()
+        if t == 0:
+            artifact.set_text("O")
+        else:
+            artifact.set_text("*")
         artifact.set_font_size(FONT_SIZE)
         artifact.set_color(color)
         artifact.set_position(position)
+        artifact.set_velocity(Point(0 ,CELL_SIZE))
         cast.add_actor('artifacts', artifact)
+
+    position = Point(450, MAX_Y-CELL_SIZE)
+    position.scale(CELL_SIZE)
+    color = Color(255, 255, 255)
+    player = Player()
+    player.set_text("#")
+    player.set_font_size(FONT_SIZE)
+    player.set_color(color)
+    player.set_position(position)
+    cast.add_actor("player0", player)
         
 
     # Start the game

@@ -26,6 +26,7 @@ class Director:
         self._video_service.open_window()
         while self._video_service.is_window_open():
             
+            self._do_updates(cast)
             self._do_outputs(cast)
         self._video_service.close_window()
         
@@ -34,7 +35,18 @@ class Director:
         pass
 
     def _do_updates(self, cast):
-        pass
+        actors = cast.get_all_actors()
+        x = self._video_service.get_width()
+        y = self._video_service.get_height()
+        for i in actors:
+            i.move_next(x, y)
+        player_character = cast.get_first_actor('player0')
+        compare = player_character.get_position()
+        for i in actors:
+            if compare.equals(i.get_position()) and i != cast.get_first_actor('player0'):
+                i.Collision()
+                #this is for points
+                cast.remove_actor("artifacts", i)
 
     def _do_outputs(self, cast):
         """Draws the actors on the screen.
