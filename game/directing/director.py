@@ -38,6 +38,7 @@ class Director:
         player.set_velocity(velocity)
 
     def _do_updates(self, cast):
+        score = 0
         actors = cast.get_all_actors()
         x = self._video_service.get_width()
         y = self._video_service.get_height()
@@ -48,7 +49,8 @@ class Director:
         for i in actors:
             if compare.equals(i.get_position()) and i != cast.get_first_actor('player0'):
                 i.Collision()
-                #this is for points
+                score = score + 1
+                print(f"Your score is {score}.")
                 cast.remove_actor("artifacts", i)
 
     def _do_outputs(self, cast):

@@ -61,6 +61,8 @@ def main():
     player.set_color(color)
     player.set_position(position)
     cast.add_actor("player0", player)
+
+    
         
 
     # Start the game
