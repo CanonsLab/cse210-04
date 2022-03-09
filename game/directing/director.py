@@ -1,3 +1,7 @@
+import random
+from game.shared.point import Point
+from game.shared.color import Color
+from game.casting.artifact import Artifact
 
 class Director:
     """A person who directs the game. 
@@ -17,6 +21,7 @@ class Director:
         """
         self._video_service = video_service
         self._keyboard_service = keyboard_service
+        self._score = 0
 
     def start_game(self, cast):
         """Starts the game using the given cast. Runs the main game loop.
@@ -38,19 +43,39 @@ class Director:
         player.set_velocity(velocity)
 
     def _do_updates(self, cast):
-        score = 0
         actors = cast.get_all_actors()
         x = self._video_service.get_width()
         y = self._video_service.get_height()
         for i in actors:
-            i.move_next(x, y)
+            i.move_next(x, y, cast)
+        if len(cast.get_actors('artifacts')) < 50:
+            x = random.randint(1, 60 - 1)
+            y = 0
+            position = Point(x, y)
+            position = position.scale(15)
+
+            r = random.randint(0, 255)
+            g = random.randint(0, 255)
+            b = random.randint(0, 255)
+            color = Color(r, g, b)
+
+            artifact = Artifact()
+            t = artifact.Get_Type()
+            if t == 0:
+                artifact.set_text("O")
+            else:
+                artifact.set_text("*")
+            artifact.set_font_size(15)
+            artifact.set_color(color)
+            artifact.set_position(position)
+            artifact.set_velocity(Point(0 , 15))
+            cast.add_actor('artifacts', artifact)
         player_character = cast.get_first_actor('player0')
         compare = player_character.get_position()
         for i in actors:
             if compare.equals(i.get_position()) and i != cast.get_first_actor('player0'):
-                i.Collision()
-                score = score + 1
-                print(f"Your score is {score}.")
+                self._score += i.Collision()
+                print(f"Your score is {self._score}.")
                 cast.remove_actor("artifacts", i)
 
     def _do_outputs(self, cast):
